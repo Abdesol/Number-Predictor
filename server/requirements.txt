@@ -1,7 +1,7 @@
-fastapi=0.68.1
-cryptography=3.4.7
-uvicorn=0.15.0
-pydantic=1.8.2
-numpy=1.20.1
+fastapi==0.68.1
+cryptography==3.4.7
+uvicorn==0.9.0
+pydantic==1.8.2
+numpy==1.20.1
 sklearn
 requests

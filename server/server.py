@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import numpy as np
 import joblib
 import requests
+import uvicorn
 
 class Request(BaseModel):
     array:list
@@ -38,7 +39,5 @@ async def predict_method(req:Request):
 
     return {"Error": False, "Prediction": prediction[1]}
 
-"""
 if __name__=="__main__":
     uvicorn.run("server:app",host='0.0.0.0', port=4323)
-"""

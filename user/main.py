@@ -7,7 +7,7 @@ import time
 import requests
 import json
 
-server_addr = "the_addrress/predict/"
+server_addr = "the_addr/predict/"
 
 class PredictionProcessor(QObject):
     predicted = pyqtSignal(list)

@@ -9,7 +9,7 @@ import json
 
 server_addr = "the_addrress/predict/"
 
-class RecognizeWorker(QObject):
+class PredictionProcessor(QObject):
     predicted = pyqtSignal(list)
     finished = pyqtSignal()
 
@@ -84,17 +84,16 @@ class MainWindow(QMainWindow):
         else:
             img_array = get_req[1]
 
-            self.fetch_obj = RecognizeWorker()
-            self.fetch_thread = QThread()
+            self.predict_obj = PredictionProcessor()
+            self.prediction_thread = QThread()
 
-            self.fetch_obj.predicted.connect(self.image_fetched)
-            self.fetch_obj.moveToThread(self.fetch_thread)
-            self.fetch_obj.finished.connect(self.fetch_thread.quit)
-            self.fetch_thread.started.connect(lambda: self.fetch_obj.run(img_array))
-            self.fetch_thread.start()
+            self.predict_obj.predicted.connect(self.image_predicted)
+            self.predict_obj.moveToThread(self.prediction_thread)
+            self.predict_obj.finished.connect(self.prediction_thread.quit)
+            self.prediction_thread.started.connect(lambda: self.predict_obj.run(img_array))
+            self.prediction_thread.start()
 
-    def image_fetched(self, ret):
-        text = ""
+    def image_predicted(self, ret):
         if not ret[0]: 
             text = ret[1]
         else:

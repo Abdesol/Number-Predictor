@@ -1,15 +1,21 @@
 from fastapi import FastAPI
 from cryptography.fernet import Fernet
-import uvicorn
 from pydantic import BaseModel
 import numpy as np
 import joblib
+import requests
 
 class Request(BaseModel):
     array:list
 
 app = FastAPI()
 
+def download_model():
+    model_url = "https://download1320.mediafire.com/3yyrodbo45ag/9gecuxwirpw8o0h/model.pkl"
+    model_req = requests.get(model_url, allow_redirects=True)
+    open("model.pkl", 'wb').write(model_req.content)
+
+download_model()
 model = joblib.load("model.pkl")
 
 def predict(array:np.ndarray):
@@ -32,5 +38,7 @@ async def predict_method(req:Request):
 
     return {"Error": False, "Prediction": prediction[1]}
 
+"""
 if __name__=="__main__":
     uvicorn.run("server:app",host='0.0.0.0', port=4323)
+"""
